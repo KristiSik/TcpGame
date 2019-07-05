@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using TCPGame.Extensions;
 using TCPGame.Options;
 
 namespace TCPGame
@@ -35,9 +36,8 @@ namespace TCPGame
                     if (_server.Pending())
                     {
                         var socket = _server.AcceptSocket();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Player connected.");
-                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        ConsoleExtensions.WriteErrorMessage("Player connected.");
 
                         byte[] bytesData = new byte[socket.ReceiveBufferSize];
                         if (socket.Receive(bytesData) > 0)
@@ -58,15 +58,11 @@ namespace TCPGame
             try
             {
                 _client.Connect(endPoint);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Successfully connected to the server.");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                ConsoleExtensions.WriteSuccessMessage("Successfully connected to the server.");
             }
             catch (SocketException e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
+                ConsoleExtensions.WriteErrorMessage(e.Message);
             }
             return true;
         }
