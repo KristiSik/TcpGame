@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using TCPGame.Options;
 
@@ -8,11 +9,21 @@ namespace TCPGame
     public class Program
     {
         private static ServiceProvider _serviceProvider;
+
+        private static AppSettings _appSettings;
+
         static void Main(string[] args)
         {
             configureServiceProvider();
             ConnectionManager connectionManager = _serviceProvider.GetService<ConnectionManager>();
-
+            if (args.Length > 0 && args[0] == "server" || _appSettings.IsServer)
+            {
+                connectionManager.StartServer();
+            } else
+            {
+                connectionManager.ConnectToServer();
+            }
+            Console.ReadKey();
         }
 
         private static void configureServiceProvider()
@@ -27,6 +38,8 @@ namespace TCPGame
             configureServices(serviceCollection);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            _appSettings = _serviceProvider.GetService<IOptions<AppSettings>>().Value;
         }
 
         private static void configureServices(IServiceCollection services)
