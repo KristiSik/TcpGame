@@ -14,7 +14,7 @@ namespace TCPGame.Extensions
         public static void WriteSuccessMessage(string message)
         {
 
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.Gray;
         }

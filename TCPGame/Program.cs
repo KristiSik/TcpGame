@@ -36,7 +36,9 @@ namespace TCPGame
             }
 
             configureServiceProvider();
+
             ConnectionManager connectionManager = _serviceProvider.GetService<ConnectionManager>();
+
             if (args.Length > 0 && args[0] == "server" || _appSettings.IsServer)
             {
                 connectionManager.StartServer();
@@ -44,6 +46,7 @@ namespace TCPGame
             {
                 connectionManager.ConnectToServer();
             }
+
             Console.ReadKey();
         }
 
