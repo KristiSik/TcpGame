@@ -6,7 +6,7 @@ namespace TCPGame.Extensions
     {
         public static void WriteErrorMessage(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
@@ -17,6 +17,12 @@ namespace TCPGame.Extensions
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static string RequestPlayerName()
+        {
+            Console.WriteLine("Player name: ");
+            return Console.ReadLine();
         }
     }
 }

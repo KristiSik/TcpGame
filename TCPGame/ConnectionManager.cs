@@ -17,12 +17,24 @@ namespace TCPGame
 
         private TcpClient _client;
 
+        public void InitializeConnection()
+        {
+            if (_appSettings.IsServer)
+            {
+                startServer();
+            }
+            else
+            {
+                connectToServer();
+            }
+        }
+
         public ConnectionManager(IOptions<AppSettings> options)
         {
             _appSettings = options.Value;
         }
 
-        public bool StartServer()
+        private bool startServer()
         {
             _server = new TcpListener(IPAddress.Parse(_appSettings.IpAddress), _appSettings.Port);
             _server.Start();
@@ -36,9 +48,6 @@ namespace TCPGame
                     if (_server.Pending())
                     {
                         var socket = _server.AcceptSocket();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Player connected.");
-                        Console.ForegroundColor = ConsoleColor.Gray;
 
                         ConsoleExtensions.WriteErrorMessage("Player connected.");
 
@@ -54,7 +63,7 @@ namespace TCPGame
             return true;
         }
 
-        public bool ConnectToServer()
+        private bool connectToServer()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(_appSettings.IpAddress), _appSettings.Port);
             _client = new TcpClient();
@@ -67,10 +76,7 @@ namespace TCPGame
             }
             catch (SocketException e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
-                ConsoleExtensions.WriteSuccessMessage("Successfully connected to the server.");
+                ConsoleExtensions.WriteErrorMessage(e.Message);
             }
             return true;
         }
