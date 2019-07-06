@@ -33,6 +33,7 @@ namespace TCPGame.GameInfo
         
         public void Display()
         {
+            Console.SetCursorPosition(0, 0);
             for(int i = 0; i < _fielsdSize * _fielsdSize; i++)
             {
                 Console.Write("  " + _cells[i]);
