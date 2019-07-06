@@ -4,17 +4,20 @@ using System.Text;
 
 namespace TCPGame.GameInfo
 {
-
+    public enum PlayerType
+    {
+        O,
+        X
+    }
 
     public class Player
     {
         public string Name { get; set; }
         
-        public int Type { get; set; }
+        public PlayerType Type { get; set; }
 
-        public Player(string name, int type)
+        public Player(string name)
         {
-            this.Type = type;
             this.Name = name;
         }
     }

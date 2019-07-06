@@ -17,12 +17,24 @@ namespace TCPGame
 
         private TcpClient _client;
 
+        public void InitializeConnection()
+        {
+            if (_appSettings.IsServer)
+            {
+                startServer();
+            }
+            else
+            {
+                connectToServer();
+            }
+        }
+
         public ConnectionManager(IOptions<AppSettings> options)
         {
             _appSettings = options.Value;
         }
 
-        public bool StartServer()
+        private bool startServer()
         {
             _server = new TcpListener(IPAddress.Parse(_appSettings.IpAddress), _appSettings.Port);
             _server.Start();
@@ -51,7 +63,7 @@ namespace TCPGame
             return true;
         }
 
-        public bool ConnectToServer()
+        private bool connectToServer()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(_appSettings.IpAddress), _appSettings.Port);
             _client = new TcpClient();
