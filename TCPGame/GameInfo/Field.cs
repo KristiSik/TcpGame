@@ -14,7 +14,7 @@ namespace TCPGame.GameInfo
 
     public class Field
     {
-        private int _fielsdSize = 3;
+        private int _fieldSize = 3;
         private int _userCount = 2;
         private string _fig_null = "[ ]";
         private string _fig_one = " X ";
@@ -30,11 +30,11 @@ namespace TCPGame.GameInfo
 
         public Field()
         {
-            _cells = new int[_fielsdSize * _fielsdSize];
+            _cells = new int[_fieldSize * _fieldSize];
             Players = new Player[_userCount];
             _history = new List<Move>();
             
-            for(int i = 0; i < _fielsdSize * _fielsdSize; i++)
+            for(int i = 0; i < _fieldSize * _fieldSize; i++)
             {
                 _cells[i] = (int)CellType.Empty;
             }
@@ -44,7 +44,7 @@ namespace TCPGame.GameInfo
         {
             string print = "";
             Console.SetCursorPosition(0, 0);
-            for(int i = 0; i < _fielsdSize * _fielsdSize; i++)
+            for(int i = 0; i < _fieldSize * _fieldSize; i++)
             {
                 switch (_cells[i])
                 {
@@ -61,7 +61,7 @@ namespace TCPGame.GameInfo
                     default: break;
                 }
                 
-                if((i+1) % _fielsdSize == 0)
+                if((i+1) % _fieldSize == 0)
                 {
                     Console.WriteLine();
                 }
@@ -79,9 +79,9 @@ namespace TCPGame.GameInfo
             bool CheckHoriszontal()
             {
                 bool status = true;
-                for(int i = 1; i < _fielsdSize * _fielsdSize; i+=3)
+                for(int i = 1; i < _fieldSize * _fieldSize; i+=3)
                 {
-                    for(int j = i+1; j < i+_fielsdSize-1; j++)
+                    for(int j = i+1; j < i+ _fieldSize - 1; j++)
                     {
                         if (_cells[j] != _cells[i])
                         {
@@ -107,7 +107,7 @@ namespace TCPGame.GameInfo
         public bool Move(int cell, Player player)
         {
             // validation
-            if (cell < 0 && cell + 1 > _fielsdSize * _fielsdSize)
+            if (cell < 0 && cell + 1 > _fieldSize * _fieldSize)
             {
                 _messages = "Incorrect position\n";
                 return false;
@@ -119,16 +119,7 @@ namespace TCPGame.GameInfo
             }
 
             // set figure
-            if(player.Type == 0)
-            {
-                _cells[cell] = (int)CellType.X;
-            }
-            else if (player.Type == PlayerType.X) {
-                _cells[cell] = _fig_two;
-            }
-            else {
-                _cells[cell] = _fig_null;
-            }
+            _cells[cell] = (int)player.Type;
 
             // save in history
             _history.Add(new Move(cell, player));
