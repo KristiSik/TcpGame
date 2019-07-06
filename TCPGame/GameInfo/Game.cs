@@ -18,7 +18,7 @@ namespace TCPGame.GameInfo
 
         private readonly ConnectionManager _connectionManager;
 
-        public Player CurrentPlayer { get; set; }
+        private Player _currentPlayer { get; set; }
 
         public Game(IOptions<AppSettings> options, ConnectionManager connectionManager)
         {
@@ -30,14 +30,30 @@ namespace TCPGame.GameInfo
 
             string currentPlayerName = ConsoleExtensions.RequestPlayerName();
 
-            AddPlayer(new Player(currentPlayerName));
+            _currentPlayer = new Player(currentPlayerName);
+            AddPlayer(_currentPlayer);
 
             _connectionManager.InitializeConnection();
+            _connectionManager.OnDataReceived += (obj) => updateGameData(obj);
         }
 
         public void Start()
         {
             setRandomPlayerTypes();
+            do
+            {
+
+            } while (!Field.CheckField());
+        }
+
+        public void Step()
+        {
+
+        }
+
+        private void updateGameData(SocketFrame socketFrame)
+        {
+            Field = socketFrame.Field;
         }
 
         private void setRandomPlayerTypes()

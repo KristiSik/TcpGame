@@ -56,7 +56,7 @@ namespace TCPGame.GameInfo
             {
                 _cells[cell] = _fig_one;
             }
-            else if (player.Type == 1) {
+            else if (player.Type == PlayerType.X) {
                 _cells[cell] = _fig_two;
             }
             else {
