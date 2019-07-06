@@ -72,10 +72,6 @@ namespace TCPGame
                 Console.ForegroundColor = ConsoleColor.Gray;
                 ConsoleExtensions.WriteSuccessMessage("Successfully connected to the server.");
             }
-            catch (SocketException e)
-            {
-                ConsoleExtensions.WriteErrorMessage(e.Message);
-            }
             return true;
         }
     }
