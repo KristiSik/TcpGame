@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using TCPGame.Data;
 using TCPGame.Extensions;
 using TCPGame.Options;
 
@@ -34,7 +35,7 @@ namespace TCPGame.GameInfo
             AddPlayer(_currentPlayer);
 
             _connectionManager.InitializeConnection();
-            _connectionManager.OnDataReceived += (obj) => updateGameData(obj);
+            _connectionManager.OnDataReceived += (frame) => updateGameData(frame);
         }
 
         public void Start()
@@ -51,9 +52,30 @@ namespace TCPGame.GameInfo
 
         }
 
-        private void updateGameData(SocketFrame socketFrame)
+        private void updateGameData(DataFrame frame)
         {
-            Field = socketFrame.Field;
+            switch (frame.DataType)
+            {
+                case DataType.PlayerName:
+                    {
+                        if (_appSettings.IsServer)
+                        {
+                            AddPlayer(new Player((string)frame.Value));
+                        } else
+                        {
+                            AddPlayer(new Player((string)frame.Value));
+                            if (_currentPlayer == null)
+                            {
+                                _currentPlayer = new Player((string)frame.Value);
+                                _connectionManager.SendPlayerTypeRequest();
+                            } else
+                            {
+                                
+                            }
+                        }
+                        break;
+                    }
+            }
         }
 
         private void setRandomPlayerTypes()
