@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using TCPGame.Data;
 using TCPGame.Extensions;
 using TCPGame.Options;
 
@@ -18,12 +19,7 @@ namespace TCPGame.GameInfo
 
         private readonly ConnectionManager _connectionManager;
 
-        internal void setPlayers(Player player1, Player player2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Player CurrentPlayer { get; set; }
+        private Player _currentPlayer { get; set; }
 
         public Game(IOptions<AppSettings> options, ConnectionManager connectionManager)
         {
@@ -35,14 +31,51 @@ namespace TCPGame.GameInfo
 
             string currentPlayerName = ConsoleExtensions.RequestPlayerName();
 
-            AddPlayer(new Player(currentPlayerName));
+            _currentPlayer = new Player(currentPlayerName);
+            AddPlayer(_currentPlayer);
 
             _connectionManager.InitializeConnection();
+            _connectionManager.OnDataReceived += (frame) => updateGameData(frame);
         }
 
         public void Start()
         {
             setRandomPlayerTypes();
+            do
+            {
+
+            } while (!Field.CheckField());
+        }
+
+        public void Step()
+        {
+
+        }
+
+        private void updateGameData(DataFrame frame)
+        {
+            switch (frame.DataType)
+            {
+                case DataType.PlayerName:
+                    {
+                        if (_appSettings.IsServer)
+                        {
+                            AddPlayer(new Player((string)frame.Value));
+                        } else
+                        {
+                            AddPlayer(new Player((string)frame.Value));
+                            if (_currentPlayer == null)
+                            {
+                                _currentPlayer = new Player((string)frame.Value);
+                                _connectionManager.SendPlayerTypeRequest();
+                            } else
+                            {
+                                
+                            }
+                        }
+                        break;
+                    }
+            }
         }
 
         private void setRandomPlayerTypes()

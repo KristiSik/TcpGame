@@ -83,7 +83,6 @@ namespace TCPGame
             {
                 ConsoleExtensions.WriteErrorMessage(ex.Message);
             }
-            
             Console.ReadKey();
         }
 
