@@ -18,6 +18,11 @@ namespace TCPGame.GameInfo
 
         private readonly ConnectionManager _connectionManager;
 
+        internal void setPlayers(Player player1, Player player2)
+        {
+            throw new NotImplementedException();
+        }
+
         public Player CurrentPlayer { get; set; }
 
         public Game(IOptions<AppSettings> options, ConnectionManager connectionManager)
