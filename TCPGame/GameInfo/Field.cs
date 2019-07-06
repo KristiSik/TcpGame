@@ -7,9 +7,9 @@ namespace TCPGame.GameInfo
 
     enum CellType : int
     {
-        Empty = 0,
+        Empty = 2,
         X = 1,
-        O = 2
+        O = 0
     }
 
     public class Field
@@ -79,11 +79,12 @@ namespace TCPGame.GameInfo
             bool CheckHoriszontal()
             {
                 bool status = true;
-                for(int i = 1; i < _fieldSize * _fieldSize; i+=3)
+                for(int i = 0; i < _fielsdSize * _fielsdSize; i+=3)
                 {
-                    for(int j = i+1; j < i+ _fieldSize - 1; j++)
+                    status = true;
+                    for (int j = i; j < i + _fielsdSize; j++)
                     {
-                        if (_cells[j] != _cells[i])
+                        if (_cells[j] != _cells[i] || _cells[i] == (int)CellType.Empty)
                         {
                             status = false;
                         }
@@ -92,12 +93,78 @@ namespace TCPGame.GameInfo
                     {
                         return true;
                     }
-                    status = true;
                 }
-                return status;
+                return false;
+            }
+            bool CheckVertical()
+            {
+                bool status = true;
+                for(int i = 0; i < _fielsdSize; i++)
+                {
+                    status = true;
+                    for (int j = i; j < i + (_fielsdSize * _fielsdSize); j+=3)
+                    {
+                        if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                        {
+                            status = false;
+                        }
+                    }
+                    if(status == true)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            bool CheckDiagonalA()
+            {
+                bool status = true;
+                int i = 0;
+                status = true;
+                for (int j = i; j < _fielsdSize * _fielsdSize; j+= _fielsdSize + 1)
+                {
+                    if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                    {
+                        status = false;
+                    }
+                }
+                if(status == true)
+                {
+                    return true;
+                }
+                return false;
+            }
+            bool CheckDiagonalB()
+            {
+                bool status = true;
+                int i = _fielsdSize-1;
+                for (int j = i; j < _fielsdSize * (_fielsdSize-1); j+= _fielsdSize - 1)
+                {
+                    if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                    {
+                        status = false;
+                    }
+                }
+                if(status == true)
+                {
+                    return true;
+                }
+                return false;
             }
 
             if (CheckHoriszontal())
+            {
+                return true;
+            }
+            if (CheckVertical())
+            {
+                return true;
+            }
+            if (CheckDiagonalA())
+            {
+                return true;
+            }
+            if (CheckDiagonalB())
             {
                 return true;
             }
