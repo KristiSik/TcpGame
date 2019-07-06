@@ -16,6 +16,7 @@ namespace TCPGame
 
         static void Main(string[] args)
         {
+            InterfaceTest interfaceTest = new InterfaceTest();
             Game game = _serviceProvider.GetService<Game>();
 
             configureServiceProvider();
