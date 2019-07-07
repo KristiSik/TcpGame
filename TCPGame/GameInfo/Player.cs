@@ -6,8 +6,8 @@ namespace TCPGame.GameInfo
 {
     public enum PlayerType
     {
-        O,
-        X
+        O = 0,
+        X = 1,
     }
 
     public class Player

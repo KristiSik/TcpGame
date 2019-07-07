@@ -12,8 +12,8 @@ namespace TCPGame.GameInfo
 
         public Move(int cell, Player player)
         {
-            this.Player = player;
-            this.Cell = cell;
+            Player = player;
+            Cell = cell;
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TCPGame.GameInfo
 {
 
-    enum CellType : int
+    public enum CellType
     {
-        Empty = 0,
+        O = 0,
         X = 1,
-        O = 2
+        Empty = 2
     }
 
     public class Field
@@ -22,7 +21,7 @@ namespace TCPGame.GameInfo
         private string _messages = "";
 
 
-        private int[] _cells;
+        private CellType[] _cells;
 
         private List<Move> _history;
 
@@ -30,38 +29,37 @@ namespace TCPGame.GameInfo
 
         public Field()
         {
-            _cells = new int[_fieldSize * _fieldSize];
+            _cells = new CellType[_fieldSize * _fieldSize];
             Players = new Player[_userCount];
             _history = new List<Move>();
-            
-            for(int i = 0; i < _fieldSize * _fieldSize; i++)
+
+            for (int i = 0; i < _fieldSize * _fieldSize; i++)
             {
-                _cells[i] = (int)CellType.Empty;
+                _cells[i] = CellType.Empty;
             }
         }
-        
+
         public void Display()
         {
-            string print = "";
             Console.SetCursorPosition(0, 0);
-            for(int i = 0; i < _fieldSize * _fieldSize; i++)
+            for (int i = 0; i < _fieldSize * _fieldSize; i++)
             {
                 switch (_cells[i])
                 {
-                    case (int)CellType.Empty:
+                    case CellType.Empty:
                         Console.Write("  " + _fig_null);
                         break;
-                    case (int)CellType.X:
+                    case CellType.X:
                         Console.Write("  " + _fig_one);
                         break;
-                    case (int)CellType.O:
+                    case CellType.O:
                         Console.Write("  " + _fig_two);
                         break;
 
                     default: break;
                 }
-                
-                if((i+1) % _fieldSize == 0)
+
+                if ((i + 1) % _fieldSize == 0)
                 {
                     Console.WriteLine();
                 }
@@ -79,16 +77,16 @@ namespace TCPGame.GameInfo
             bool CheckHoriszontal()
             {
                 bool status = true;
-                for(int i = 1; i < _fieldSize * _fieldSize; i+=3)
+                for (int i = 1; i < _fieldSize * _fieldSize; i += 3)
                 {
-                    for(int j = i+1; j < i+ _fieldSize - 1; j++)
+                    for (int j = i + 1; j < i + _fieldSize - 1; j++)
                     {
                         if (_cells[j] != _cells[i])
                         {
                             status = false;
                         }
                     }
-                    if(status == true)
+                    if (status == true)
                     {
                         return true;
                     }
@@ -112,14 +110,14 @@ namespace TCPGame.GameInfo
                 _messages = "Incorrect position\n";
                 return false;
             }
-            if(_cells[cell] != (int)CellType.Empty)
+            if (_cells[cell] != CellType.Empty)
             {
                 _messages += "Incorrect position\n";
                 return false;
             }
 
             // set figure
-            _cells[cell] = (int)player.Type;
+            _cells[cell] = (CellType)player.Type;
 
             // save in history
             _history.Add(new Move(cell, player));
