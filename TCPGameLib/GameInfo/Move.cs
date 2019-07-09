@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TCPGame.GameInfo
+﻿namespace TCPGameLib.GameInfo
 {
     public class Move
     {

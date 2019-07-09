@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TCPGame.GameInfo
+namespace TCPGameLib.GameInfo
 {
 
     public enum CellType
@@ -20,8 +20,7 @@ namespace TCPGame.GameInfo
         private string _fig_two = " O ";
         private string _messages = "";
 
-
-        private CellType[] _cells;
+        public CellType[] Cells { get; set; }
 
         private List<Move> _history;
 
@@ -29,13 +28,13 @@ namespace TCPGame.GameInfo
 
         public Field()
         {
-            _cells = new CellType[_fieldSize * _fieldSize];
+            Cells = new CellType[_fieldSize * _fieldSize];
             Players = new Player[_userCount];
             _history = new List<Move>();
 
             for (int i = 0; i < _fieldSize * _fieldSize; i++)
             {
-                _cells[i] = CellType.Empty;
+                Cells[i] = CellType.Empty;
             }
         }
 
@@ -44,7 +43,7 @@ namespace TCPGame.GameInfo
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < _fieldSize * _fieldSize; i++)
             {
-                switch (_cells[i])
+                switch (Cells[i])
                 {
                     case CellType.Empty:
                         Console.Write("  " + _fig_null);
@@ -81,7 +80,7 @@ namespace TCPGame.GameInfo
                 {
                     for (int j = i + 1; j < i + _fieldSize - 1; j++)
                     {
-                        if (_cells[j] != _cells[i])
+                        if (Cells[j] != Cells[i])
                         {
                             status = false;
                         }
@@ -110,14 +109,14 @@ namespace TCPGame.GameInfo
                 _messages = "Incorrect position\n";
                 return false;
             }
-            if (_cells[cell] != CellType.Empty)
+            if (Cells[cell] != CellType.Empty)
             {
                 _messages += "Incorrect position\n";
                 return false;
             }
 
             // set figure
-            _cells[cell] = (CellType)player.Type;
+            Cells[cell] = (CellType)player.Type;
 
             // save in history
             _history.Add(new Move(cell, player));

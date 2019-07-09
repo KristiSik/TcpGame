@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TCPGame.Extensions
+namespace TCPGameLib.Extensions
 {
     public static class ConsoleExtensions
     {

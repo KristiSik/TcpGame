@@ -2,9 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
-using TCPGame.Extensions;
-using TCPGame.GameInfo;
-using TCPGame.Options;
+using TCPGameLib.GameInfo;
+using TCPGameLib.Options;
 
 namespace TCPGame
 {
@@ -12,7 +11,7 @@ namespace TCPGame
     {
         private static ServiceProvider _serviceProvider;
 
-        private static AppSettings _appSettings;
+        private static ClientSettings _appSettings;
 
         static void Main(string[] args)
         {
@@ -33,18 +32,17 @@ namespace TCPGame
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
-            serviceCollection.Configure<AppSettings>(config);
+            serviceCollection.Configure<ClientSettings>(config);
             configureServices(serviceCollection);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
-            _appSettings = _serviceProvider.GetService<IOptions<AppSettings>>().Value;
+            _appSettings = _serviceProvider.GetService<IOptions<ClientSettings>>().Value;
         }
 
         private static void configureServices(IServiceCollection services)
         {
-            services.AddTransient<ConnectionManager, ConnectionManager>();
-            services.AddTransient<Game, Game>();
+            services.AddTransient<Client, Client>();
         }
     }
 }
