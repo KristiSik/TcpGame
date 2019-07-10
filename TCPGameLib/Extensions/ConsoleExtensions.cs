@@ -21,7 +21,7 @@ namespace TCPGameLib.Extensions
 
         public static string RequestPlayerName()
         {
-            Console.WriteLine("Player name: ");
+            Console.Write("Player name: ");
             return Console.ReadLine();
         }
     }

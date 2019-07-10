@@ -12,6 +12,11 @@
 
         public PlayerType Type { get; set; }
 
+        public Player()
+        {
+
+        }
+
         public Player(string name)
         {
             this.Name = name;

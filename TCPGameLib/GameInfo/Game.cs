@@ -10,9 +10,9 @@ namespace TCPGameLib.GameInfo
     public class Game
     {
         public bool IsActive { get; set; }
+        public Player CurrentPlayer { get; set; }
         private Field _field;
         private List<Player> _players;
-        private Player _currentPlayer;
 
         public Game()
         {
@@ -23,17 +23,14 @@ namespace TCPGameLib.GameInfo
         public void SetCurrentPlayerInfo()
         {
             string currentPlayerName = ConsoleExtensions.RequestPlayerName();
-            _currentPlayer = new Player(currentPlayerName);
-            AddPlayer(_currentPlayer);
+            CurrentPlayer = new Player(currentPlayerName);
+            AddPlayer(CurrentPlayer);
         }
 
         public void Start()
         {
             setRandomPlayerTypes();
-            //do
-            //{
-
-            //} while (!Field.CheckField());
+            ConsoleExtensions.WriteSuccessMessage("Game has started.");
         }
 
         public void Step()
@@ -43,7 +40,7 @@ namespace TCPGameLib.GameInfo
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(new GameData() { Cells = _field.Cells});
+            return JsonConvert.SerializeObject(new GameData() { Cells = _field.Cells, Players = _players.ToArray() });
         }
 
         public void UpdateState(GameData gameData)
@@ -57,6 +54,7 @@ namespace TCPGameLib.GameInfo
             var random = new Random().NextDouble();
             _players[0].Type = (PlayerType)Math.Round(random);
             _players[1].Type = (1 - _players[0].Type);
+            ConsoleExtensions.WriteSuccessMessage($"{_players[0].Name} is {_players[0].Type.ToString()} and {_players[1].Name} is {_players[1].Type.ToString()}");
         }
 
         public bool AddPlayer(Player player)

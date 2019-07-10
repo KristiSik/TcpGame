@@ -76,12 +76,12 @@ namespace TCPGameLib.GameInfo
             bool CheckHoriszontal()
             {
                 bool status = true;
-                for(int i = 0; i < _fielsdSize * _fielsdSize; i+=3)
+                for(int i = 0; i < _fieldSize * _fieldSize; i+=3)
                 {
                     status = true;
-                    for (int j = i; j < i + _fielsdSize; j++)
+                    for (int j = i; j < i + _fieldSize; j++)
                     {
-                        if (_cells[j] != _cells[i] || _cells[i] == (int)CellType.Empty)
+                        if (Cells[j] != Cells[i] || Cells[i] == CellType.Empty)
                         {
                             status = false;
                         }
@@ -96,12 +96,12 @@ namespace TCPGameLib.GameInfo
             bool CheckVertical()
             {
                 bool status = true;
-                for(int i = 0; i < _fielsdSize; i++)
+                for(int i = 0; i < _fieldSize; i++)
                 {
                     status = true;
-                    for (int j = i; j < i + (_fielsdSize * _fielsdSize); j+=3)
+                    for (int j = i; j < i + (_fieldSize * _fieldSize); j+=3)
                     {
-                        if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                        if (Cells[j] != Cells[i] || Cells[j] == CellType.Empty)
                         {
                             status = false;
                         }
@@ -118,9 +118,9 @@ namespace TCPGameLib.GameInfo
                 bool status = true;
                 int i = 0;
                 status = true;
-                for (int j = i; j < _fielsdSize * _fielsdSize; j+= _fielsdSize + 1)
+                for (int j = i; j < _fieldSize * _fieldSize; j+= _fieldSize + 1)
                 {
-                    if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                    if (Cells[j] != Cells[i] || Cells[j] == CellType.Empty)
                     {
                         status = false;
                     }
@@ -134,10 +134,10 @@ namespace TCPGameLib.GameInfo
             bool CheckDiagonalB()
             {
                 bool status = true;
-                int i = _fielsdSize-1;
-                for (int j = i; j < _fielsdSize * (_fielsdSize-1); j+= _fielsdSize - 1)
+                int i = _fieldSize-1;
+                for (int j = i; j < _fieldSize * (_fieldSize - 1); j+= _fieldSize - 1)
                 {
-                    if (_cells[j] != _cells[i] || _cells[j] == (int)CellType.Empty)
+                    if (Cells[j] != Cells[i] || Cells[j] == CellType.Empty)
                     {
                         status = false;
                     }

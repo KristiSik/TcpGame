@@ -16,14 +16,6 @@ namespace TCPGameLib.Data
     {
         public CommandType CommandType { get; set; }
         public string Value { get; set; }
-        public object ValueObject
-        {
-            get
-            {
-                return JsonConvert.DeserializeObject(Value);
-            }
-        }
-
 
         public Packet(CommandType type, string value = null)
         {
@@ -50,6 +42,11 @@ namespace TCPGameLib.Data
         {
             string jsonString = Encoding.UTF8.GetString(packetBytes);
             return JsonConvert.DeserializeObject<Packet>(jsonString);
+        }
+
+        public T GetObjectValue<T>()
+        {
+            return JsonConvert.DeserializeObject<T>(Value);
         }
     }
 }
