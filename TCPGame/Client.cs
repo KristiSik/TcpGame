@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -34,7 +35,7 @@ namespace TCPGame
                 _clientSocket.Connect(serverEndPoint);
                 ConsoleExtensions.WriteSuccessMessage("Successfully connected to the server.");
 
-                sendPlayerName();
+                sendPlayerInfo();
 
                 Task.Run(() =>
                 {
@@ -84,9 +85,10 @@ namespace TCPGame
             _clientSocket.Send(packet.Pack());
         }
 
-        private void sendPlayerName()
+        private void sendPlayerInfo()
         {
-            var packet = new Packet(CommandType.SetPlayerName, _game.CurrentPlayer.Name);
+            var jsonPlayer = JsonConvert.SerializeObject(_game.CurrentPlayer);
+            var packet = new Packet(CommandType.PlayerInfo, jsonPlayer);
             _clientSocket.Send(packet.Pack());
         }
     }

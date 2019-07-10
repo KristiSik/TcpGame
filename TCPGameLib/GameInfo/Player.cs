@@ -1,4 +1,6 @@
-﻿namespace TCPGameLib.GameInfo
+﻿using System;
+
+namespace TCPGameLib.GameInfo
 {
     public enum PlayerType
     {
@@ -8,18 +10,20 @@
 
     public class Player
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public PlayerType Type { get; set; }
 
         public Player()
         {
-
+            Id = Guid.NewGuid().ToString();
         }
 
-        public Player(string name)
+        public Player(string name) : this()
         {
-            this.Name = name;
+            Name = name;
         }
     }
 }

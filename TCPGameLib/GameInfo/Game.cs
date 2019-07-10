@@ -35,7 +35,7 @@ namespace TCPGameLib.GameInfo
 
         public void Step()
         {
-
+            
         }
 
         public override string ToString()
@@ -47,6 +47,12 @@ namespace TCPGameLib.GameInfo
         {
             _players = gameData.Players.ToList();
             _field.Cells = gameData.Cells;
+
+            var currentPlayerInList = _players.FirstOrDefault(p => p.Id == CurrentPlayer.Id);
+            if (currentPlayerInList != null)
+            {
+                CurrentPlayer = currentPlayerInList;
+            }
         }
 
         private void setRandomPlayerTypes()

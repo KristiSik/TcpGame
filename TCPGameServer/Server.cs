@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using TCPGameLib.Data;
 using TCPGameLib.Extensions;
 using TCPGameLib.GameInfo;
@@ -53,8 +54,13 @@ namespace TCPGameServer
             {
                 _listener.BeginAcceptSocket(new AsyncCallback(acceptCallback), null);
             }
-            else if (!_connectedSockets.Values.Any(p => p.Name == null))
+            else
             {
+                // waiting, until all players haven't set their names
+                while (_connectedSockets.Values.Any(p => p.Name == null))
+                {
+                    Thread.Sleep(1000);
+                }
                 _game.Start();
             }
         }
@@ -84,8 +90,8 @@ namespace TCPGameServer
                 case CommandType.GetGameInfo:
                     sendGameInfo(socket);
                     break;
-                case CommandType.SetPlayerName:
-                    setPlayerName(socket, packet.Value);
+                case CommandType.PlayerInfo:
+                    setPlayerInfo(socket, packet.GetObjectValue<Player>());
                     break;
             }
         }
@@ -102,9 +108,10 @@ namespace TCPGameServer
             socket.Send(packet.Pack());
         }
 
-        private void setPlayerName(Socket socket, string playerName)
+        private void setPlayerInfo(Socket socket, Player player)
         {
-            _connectedSockets[socket].Name = playerName;
+            _connectedSockets[socket].Name = player.Name;
+            _connectedSockets[socket].Id = player.Id;
         }
     }
 }

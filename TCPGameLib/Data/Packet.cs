@@ -6,10 +6,11 @@ namespace TCPGameLib.Data
 {
     public enum CommandType
     {
-        SetPlayerName,
+        PlayerInfo,
+        RequestMove,
         MakeMove,
         GetGameInfo,
-        GameInfo
+        GameInfo,
     }
 
     public class Packet
